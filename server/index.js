@@ -21,10 +21,10 @@ app.use(cors({
 }));
 
 // FIXME: Authorize users API only for admins
-app.use('/api/users', userRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/conversations', authenticateToken, conversationRoutes);
-app.use('/api/messages', authenticateToken, messageRoutes);
+app.use('/users', userRoutes);
+app.use('/auth', authRoutes);
+app.use('/conversations', authenticateToken, conversationRoutes);
+app.use('/messages', authenticateToken, messageRoutes);
 
 app.listen(port, () => {
   console.log(`[*] Server listening on port http://localhost:${port}`);
