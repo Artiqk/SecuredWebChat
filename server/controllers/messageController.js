@@ -1,9 +1,9 @@
-const { Message, ConversationMember } = require('../models');
+const { Message, ConversationMember, MessageRecipient } = require('../models');
 const { messageSchema } = require('../validators/messageValidator');
 
 exports.createMessage = async (req, res) => {
   try {
-    const senderId = req.userId;
+    const creatorId = req.userId;
 
     const { value, error } = messageSchema.validate(req.body);
 
@@ -12,15 +12,19 @@ exports.createMessage = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
 
-    const { msgContent, conversationId } = value;
+    const { body, recipientId } = value;
 
     const message = await Message.create({
-      content: msgContent,
-      senderId,
-      conversationId
+      body,
+      creatorId
     });
 
-    res.status(201).json({ message: 'Message created', data: message });
+    const messageRecipient = await MessageRecipient.create({
+      recipientId,
+      messageId: message.id
+    });
+
+    res.status(201).json({ message: 'Message created', data: { message, messageRecipient } });
   } catch (error) {
     if (error.name === 'SequelizeForeignKeyConstraintError') {
       return res.status(400).json({ error: 'User or conversation does not exist' });
@@ -30,6 +34,7 @@ exports.createMessage = async (req, res) => {
   }
 }
 
+// FIXME: Rework this function to adapt it to the new database design
 exports.retrieveMessagesFromConversation = async (req, res) => {
   try {
     const userId = req.userId;
