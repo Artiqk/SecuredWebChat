@@ -3,13 +3,12 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors')
 const sequelize = require('./config/database');
-const { User, Message, Conversation, ConversationMember } = require('./models');
+const { User, Message } = require('./models');
 
 const { authenticateToken } = require('./middleware/authenticateToken');
 
 const userRoutes = require('./routes/userRoutes');
 const authRoutes = require('./routes/authRoutes');
-const conversationRoutes = require('./routes/conversationRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 
 const app = express();

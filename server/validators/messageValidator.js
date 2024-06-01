@@ -1,5 +1,7 @@
 const Joi = require('joi');
 
+
+// FIXME: adapt to new database design
 const messageSchema = Joi.object({
   msgContent: Joi.string()
     .trim()

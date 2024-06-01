@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { createMessage, retrieveMessagesFromConversation } = require('../controllers/messageController');
+const { createMessage, retrieveMessages } = require('../controllers/messageController');
 
 router.post('/new', createMessage);
-router.get('/fetch/:conversationId/:limit', retrieveMessagesFromConversation);
+
+// FIXME: remove conversationId
+router.get('/fetch/:conversationId/:limit', retrieveMessages);
 
 module.exports = router;

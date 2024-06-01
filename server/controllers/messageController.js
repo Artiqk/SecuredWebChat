@@ -35,7 +35,7 @@ exports.createMessage = async (req, res) => {
 }
 
 // FIXME: Rework this function to adapt it to the new database design
-exports.retrieveMessagesFromConversation = async (req, res) => {
+exports.retrieveMessages = async (req, res) => {
   try {
     const userId = req.userId;
 
@@ -47,19 +47,15 @@ exports.retrieveMessagesFromConversation = async (req, res) => {
 
     numericalLimit = isNaN(limit) || limit <= 0 ? maxAuthorizedLimit : Math.min(numericalLimit, maxAuthorizedLimit);
 
-    const isUserInConversation = await ConversationMember.findOne({
-      where: { conversationId, userId }
-    })
+    // TODO: Check if messages exist between 2 users
 
-    if (!isUserInConversation) {
-      return res.status(403).json({ error: 'User is not part of this conversation' });
-    }
+    // TODO: Retrieve all messages between the 2 users
 
-    const messages = await Message.findAll({
-      where: { conversationId },
-      limit: numericalLimit,
-      order: [['createdAt', 'DESC']]
-    });
+    // const messages = await Message.findAll({
+    //   where: { conversationId },
+    //   limit: numericalLimit,
+    //   order: [['createdAt', 'DESC']]
+    // });
 
     res.status(200).json({ data: messages });
   } catch (error) {
