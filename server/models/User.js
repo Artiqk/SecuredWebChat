@@ -16,6 +16,14 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  publicKey: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  encryptedPrivateKey: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   createdAt: {
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW

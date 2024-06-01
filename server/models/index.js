@@ -1,23 +1,21 @@
 const User = require('./User');
 const Message = require('./Message');
-const Conversation = require('./Conversation');
-const ConversationMember = require('./ConversationMember');
+const MessageRecipient = require('./MessageRecipient');
 
-User.hasMany(Message, { foreignKey: 'senderId' });
-Message.belongsTo(User, { foreignKey: 'senderId' });
+User.hasMany(Message, { foreignKey: 'creatorId' });
+Message.belongsTo(User, { foreignKey: 'creatorId' });
 
-Conversation.hasMany(Message, { foreignKey: 'conversationId' });
-Message.belongsTo(Conversation, { foreignKey: 'conversationId' });
+Message.hasMany(Message, { as: 'Replies', foreignKey: 'parentId' });
+Message.belongsTo(Message, { as: 'Parent', foreignKey: 'parentId' });
 
-User.belongsToMany(Conversation, { through: ConversationMember, foreignKey: 'userId' });
-Conversation.belongsToMany(User, { through: ConversationMember, foreignKey: 'conversationId' });
+User.hasMany(MessageRecipient, { foreignKey: 'recipientId' });
+MessageRecipient.belongsTo(User, { foreignKey: 'recipientId' });
 
-ConversationMember.belongsTo(User, { foreignKey: 'userId' });
-ConversationMember.belongsTo(Conversation, { foreignKey: 'conversationId' });
+Message.hasMany(MessageRecipient, { foreignKey: 'messageId' });
+MessageRecipient.belongsTo(Message, { foreignKey: 'messageId' });
 
 module.exports = {
   User,
   Message,
-  Conversation,
-  ConversationMember
+  MessageRecipient
 };

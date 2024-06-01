@@ -1,34 +1,31 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Message = sequelize.define('Message', {
+const MessageRecipient = sequelize.define('MessageRecipient', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true
   },
-  body: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  creatorId: {
+  recipientId: {
     type: DataTypes.UUID,
     allowNull: false
   },
-  parentId: {
-    type: DataTypes.UUID
+  messageId: {
+    type: DataTypes.UUID,
+    allowNull: false
   },
-  createdAt: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  isRead: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
     allowNull: false
   }
 }, {
   indexes: [{
-    fields: ['creatorId']
+    fields: ['recipientId']
   }, {
-    fields: ['parentId']
+    fields: ['messageId']
   }]
 });
 
-module.exports = Message;
+module.exports = MessageRecipient;
