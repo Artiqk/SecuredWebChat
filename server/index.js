@@ -23,7 +23,6 @@ app.use(cors({
 // FIXME: Authorize users API only for admins
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/conversations', authenticateToken, conversationRoutes);
 app.use('/messages', authenticateToken, messageRoutes);
 
 app.listen(port, () => {
